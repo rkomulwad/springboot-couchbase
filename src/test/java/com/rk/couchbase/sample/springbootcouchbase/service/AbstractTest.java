@@ -87,7 +87,7 @@ public abstract class AbstractTest {
     protected abstract UserService getUserService();
 
     @Test
-    public void test(){
+    public void testSave(){
         String id = "rick";
         User user = new User();
         user.setId(id);
