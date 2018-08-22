@@ -3,17 +3,22 @@ package com.rk.couchbase.sample.springbootcouchbase.service;
 import com.rk.couchbase.sample.springbootcouchbase.entity.User;
 
 import java.util.Map;
+import java.util.Optional;
 
 public interface UserService {
-    public User saveUser(User user);
+    User saveUser(User user);
 
-    public User findUserByUserId(String userId);
+    Optional<User> findUserByUserId(String userId);
 
-    public Iterable<User> findAllUsers();
+    Optional<User> findUserByFirstName(String firstName);
 
-    public User updateUser(User user);
+    Iterable<User> findAllUsers();
 
-    public void deleteUser(String id);
+    User updateUser(User user);
 
-    public User updateAttributes(String userId, Map<String, String> attributeUpdates);
+    void deleteUser(String id);
+
+    void updateAttributes(String userId, Map<String, String> attributeUpdates);
+
+    void deleteAllUsers();
 }

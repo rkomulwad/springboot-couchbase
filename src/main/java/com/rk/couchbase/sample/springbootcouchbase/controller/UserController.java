@@ -4,6 +4,7 @@ import com.rk.couchbase.sample.springbootcouchbase.entity.User;
 import com.rk.couchbase.sample.springbootcouchbase.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
+    @Qualifier("userServiceSpringDataImpl")
     private UserService service;
 
     @GetMapping("/{userId}")
     public ResponseEntity<User> read(@PathVariable("userId") String userId){
-        return Optional.ofNullable(service.findUserByUserId(userId))
+        return service.findUserByUserId(userId)
                 .map(user -> ResponseEntity.ok(user))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -49,7 +50,8 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public ResponseEntity<User> updateFirstName(@PathVariable("userId") String userId, @RequestBody Map<String, String> attributeUpdates) {
-        return ResponseEntity.ok(service.updateAttributes(userId, attributeUpdates));
+        service.updateAttributes(userId, attributeUpdates);
+        return ResponseEntity.ok(service.findUserByUserId(userId).get());
     }
 
     @DeleteMapping("/{userId}")

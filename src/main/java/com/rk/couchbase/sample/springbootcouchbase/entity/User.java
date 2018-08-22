@@ -4,8 +4,9 @@ import com.couchbase.client.java.repository.annotation.Field;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
-import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
-import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,11 +14,12 @@ import javax.validation.constraints.NotNull;
 @Document
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationStrategy.UNIQUE)
+    //@GeneratedValue(strategy = GenerationStrategy.)
+    //default strategy = GenerationStrategy.USE_ATTRIBUTES, delimiter = "."
     private String id;
 
-    @Field
     @NotNull
+    @Field
     private String userId;
 
     @Field
@@ -28,6 +30,17 @@ public class User {
 
     @Field
     private String email;
+
+    @Field
+    private List<Address> addresses = new ArrayList<>();
+
+    public void addAddress(Address address){
+        addresses.add(address);
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
 
     public String getId() {
         return id;

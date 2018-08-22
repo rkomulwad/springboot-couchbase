@@ -6,9 +6,14 @@ import org.springframework.data.couchbase.core.query.N1qlPrimaryIndexed;
 import org.springframework.data.couchbase.core.query.ViewIndexed;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 @N1qlPrimaryIndexed
-@ViewIndexed(designDoc = "user")
+@ViewIndexed(designDoc = "user", viewName = "all")
 public interface UserRepository extends CrudRepository<User, String> {
 
-    public User findByUserId(String userId);
+    public Optional<User> findByUserId(String userId);
+
+    public Optional<User> findByFirstName(String firstName);
+
 }
